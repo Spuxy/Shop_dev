@@ -132,12 +132,3 @@
         </div>
     </body>
 </html>
-<script src="/js/app.js"></script>
-<script>
-    window.Echo.channel('startChatApp').listen('StartChat', (e) => {
-        console.log(e.message);
-    });
-    Echo.channel('startChatApp').listen('StartChat', (e) => {
-        console.log(e.message);
-    });
-</script>
