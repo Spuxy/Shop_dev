@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content={{ csrf_token() }}">
 
         <title>Laravel</title>
 
@@ -19,8 +20,9 @@
                 font-family: 'Nunito';
             }
         </style>
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
-    <body class="antialiased">
+    <body class="red">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
@@ -54,7 +56,7 @@
                             </div>
 
                             <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                                <div class="red-text">
                                     Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
                                 </div>
                             </div>
@@ -130,3 +132,12 @@
         </div>
     </body>
 </html>
+<script src="/js/app.js"></script>
+<script>
+    window.Echo.channel('startChatApp').listen('StartChat', (e) => {
+        console.log(e.message);
+    });
+    Echo.channel('startChatApp').listen('StartChat', (e) => {
+        console.log(e.message);
+    });
+</script>

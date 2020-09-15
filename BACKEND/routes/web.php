@@ -19,7 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/wtf', function () {
-    Redis::set('TEST', '5');
-    $TEST = Redis::get('TEST');
-    return $TEST;
+    return 'wtf';
 });
