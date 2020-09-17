@@ -1,5 +1,5 @@
 /node_modules
-/Docker/mysql/*
+/Docker/mysql
 /public/hot
 /public/css
 /public/js
