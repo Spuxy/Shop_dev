@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www
-      - ./logs:/var/log/nginx
+      - ./NGINX/logs:/var/log/nginx
     ports:
       # Nuxt port
       - 8080:80
@@ -43,8 +43,6 @@ services:
     tty: true
     ports:
       - "4306:3306"
-    volumes:
-      - ./BACKEND/Docker/mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: homestead
       MYSQL_USER: homestead
