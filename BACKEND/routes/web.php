@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Redis;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +15,4 @@ use Illuminate\Support\Facades\Redis;
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('/wtf', function () {
-    Redis::set('TEST', '5');
-    $TEST = Redis::get('TEST');
-    return $TEST;
 });
