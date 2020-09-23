@@ -28,7 +28,10 @@ RUN apt-get install -y imagemagick && apt-get install -y --no-install-recommends
 RUN pecl install imagick && docker-php-ext-enable imagick
 
 # PostgreSQL
-RUN apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
+# RUN apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
+
+# MySQL
+RUN docker-php-ext-install pdo pdo_mysql
 
 # BC Math
 RUN docker-php-ext-install bcmath

@@ -24,6 +24,7 @@ services:
     build:
       context: BACKEND/Docker/php
       dockerfile: Dockerfile
+    container_name: php
     volumes:
       - ./BACKEND:/var/www/api
     environment:
