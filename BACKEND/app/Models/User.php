@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -38,15 +39,32 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-	public function posts() {
-		return $this->hasMany('App\Models\Post');
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
     }
 
-	public function getJWTIdentifier() {
-		return $this->getKey();
-	}
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
 
-	public function getJWTCustomClaims() {
-		return [];
-	}
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    public static function perform($data)
+    {
+
+        if ($alreadyExist = User::where('email', $data['email'])->first()) {
+            return response()->json(['errorik']);
+        };
+
+        return self::create([
+            'name' => $data['username'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
 }

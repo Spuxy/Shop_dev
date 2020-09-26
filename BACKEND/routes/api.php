@@ -1,9 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\RepositoryController;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +21,21 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::post('/login', [AuthController::class, 'login']);
 Route::post('logout', 'AuthController@logout');
 Route::post('refresh', 'AuthController@refresh');
 
-Route::get('me/posts', [PostController::class, 'show']);
+// Pouzit postman
+Route::group(['prefix' => 'github'], function() {
+	Route::get("repo/list", [RepositoryController::class, 'index']);
+	Route::get('request/info', [RepositoryController::class, 'info']);
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('me', [AdminController::class, 'me']);
+    Route::get('logout', [LogoutController::class, 'logout']);
+});
+
+Route::group(['prefix' => 'auth', 'namespace' => 'Api\Auth'], function () {
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('register', [RegisterController::class, 'register']);
+});

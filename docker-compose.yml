@@ -13,12 +13,23 @@ services:
       - 8080:80
       # Laravel port
       - 8081:81
+      # Go port
+      - 8082:82
     networks:
       - back-end
       - front-end
     depends_on:
       - php
       - nodejs
+#      - goservice
+
+#  goservice:
+#    restart: always
+#    build:
+#      dockerfile: Dockerfile
+#      context: MICROSERVICES/GO
+#    ports:
+#      - "8082"
 
   php:
     build:
