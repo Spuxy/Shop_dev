@@ -2,18 +2,20 @@
 
 namespace App\Services\GitHub;
 
+use App\Services\IGit;
 use GuzzleHttp\Client;
 use App\Services\GitHub\Definitions\HEADER;
 
-class GitHub
+class GitHub implements IGit
 {
-    protected $client;
+	protected $client;
 
-	public function __construct() {
-		$this->client = new Client(['base_uri' => 'https://api.github.com', [
-			'auth' =>
-				 ['Spuxy', env('GITHUB_TOKEN')
-				 ]
+	public function __construct()
+	{
+		$this->client = new Client([
+			'base_uri' => 'https://api.github.com', [
+				'auth' =>
+				['Spuxy', env('GITHUB_TOKEN')]
 			],
 			'headers' => [
 				'User-Agent' => ''
@@ -21,14 +23,15 @@ class GitHub
 		]);
 	}
 
-    public function list()
-    {
-        $res = $this->client->get('/repos/octokit/octokit.rb');
-        $body = $res->getBody();
-        return json_decode($body->getContents());
-    }
+	public function list(): array
+	{
+		$res = $this->client->get('/users/Spuxy/repos');
+		$body = $res->getBody();
+		return json_decode($body->getContents());
+	}
 
-	public function info() {
+	public function info()
+	{
 		$res = $this->client->get('/users/Spuxy');
 		$headerRESET = $res->getHeader(HEADER::RESET);
 		$headerLIMIT = $res->getHeader(HEADER::LIMIT);

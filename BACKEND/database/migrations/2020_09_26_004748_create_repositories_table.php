@@ -16,7 +16,7 @@ class CreateRepositoriesTable extends Migration
         Schema::create('repositories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('url');
+            $table->string('url')->default(null);
             $table->boolean('is_private')->default(FALSE);
             $table->timestamps();
         });

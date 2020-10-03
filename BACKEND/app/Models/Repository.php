@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Repository extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'is_private', 'description'];
+    protected $fillable = ['name', 'is_private', 'url'];
 }

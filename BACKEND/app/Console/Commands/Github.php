@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Repository;
-use App\Services\GitHub as GitHubService;
+use App\Services\GitHub\GitHub as GitHubService;
 
 class Github extends Command
 {
@@ -37,15 +37,20 @@ class Github extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
+     * Function which fetches my repos
+     * @return null
      */
     public function handle()
     {
         $data = $this->gitHub->list();
-        $payload = [];
-        $collection = collect($data)->map(function ($item) {
-            Repository::create(['name' => $item->name, 'description' => $item->html_url, 'is_private' => $item->private]);
-        });
+        foreach ($data as $item) {
+            $this->saveRepository($item);
+        }
+        return false;
+    }
+
+    public function saveRepository($item): void
+    {
+        Repository::create(['name' => $item->name, 'url' => $item->html_url, 'is_private' => $item->private]);
     }
 }

@@ -24,10 +24,13 @@ use Mockery\Generator\StringManipulation\Pass\Pass;
 Route::post('logout', 'AuthController@logout');
 Route::post('refresh', 'AuthController@refresh');
 
+// Github call pres api.php
+// presun pote do routes/github/api.php
 // Pouzit postman
-Route::group(['prefix' => 'github'], function() {
-	Route::get("repo/list", [RepositoryController::class, 'index']);
-	Route::get('request/info', [RepositoryController::class, 'info']);
+Route::group(['prefix' => 'git'], function () {
+    // zobrazi list repositorau daneho uzivatele
+    Route::get("repo/list/{platForm}", [RepositoryController::class, 'index']);
+    Route::get('request/info', [RepositoryController::class, 'info']);
 });
 
 Route::group(['middleware' => 'auth'], function () {

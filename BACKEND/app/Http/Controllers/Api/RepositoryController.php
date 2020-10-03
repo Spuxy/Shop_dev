@@ -2,46 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Resources\GitHubResource;
-use App\Services\GitHub\GitHub as GitHubService;
-use App\Models\Repository;
-use App\Http\Controllers\Controller;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Illuminate\Http\Request;
 use App\Services\Cache\Redis;
+use App\Services\GitHub\GitHub;
+use App\Http\Controllers\Controller;
+use App\Services\Factory\GitFactory;
 
 class RepositoryController extends Controller
 {
 
-    protected $gitHub;
+	protected $client;
 	/**
 	 * @var Redis
 	 */
-	private $redis;
 
-	public function __construct(GitHubService $gitHub, Redis $redis) {
-//		$this->middleware('auth:api');
-		$this->gitHub = $gitHub;
-		$this->redis = $redis;
+	public function __construct(GitHub $client)
+	{
+		//		$this->middleware('auth:api');
+		$this->client = $client;
 	}
 
+	// zobrazit jazyky a repositare daneho uzivatele
+	public function index($platForm)
+	{
+		$factory = new GitFactory();
 
-    public function index()
-    {
-    	$data = Repository::all();
-        return GitHubResource::collection($data);
-    }
+		$git = $factory->make($platForm);
 
-	public function info(Request $request) {
-		try {
-			$this->redis->get($request);
-		} catch (JWTException $e) {
-			response()->json([
-				'error' => $e->getMessage()
-			]);
-		}
-		return response()->json(['success'=>TRUE, 'data' => [
-			$this->gitHub->info()
+		return response()->json(['success' => TRUE, 'data' => [
+			$git->list()
 		]]);
-    }
+	}
 }
