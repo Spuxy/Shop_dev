@@ -6,9 +6,23 @@ use App\Services\IGit;
 
 class GitFactory
 {
+
+    protected $gits = [
+        'github' => 'GitHub',
+        'gitlab' => 'GitLab',
+    ];
+
+
+    /**
+     * create class depends on url param
+     *
+     * @param  string $name
+     * @return IGit
+     */
     public function make($name): IGit
     {
-        $class = "App\\Services\\{$name}\\{$name}";
+        $git = $this->gits[$name] ?: $name;
+        $class = "App\\Services\\$git\\$git";
         return new $class;
     }
 }

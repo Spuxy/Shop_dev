@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -53,7 +52,6 @@ class LoginController extends Controller
             return response()->json(['success' => false], 401);
         }
 
-        // dd($request->only('email', 'password'));
         try {
             $token = JWTAuth::attempt($request->only('email', 'password'));
 
@@ -64,7 +62,7 @@ class LoginController extends Controller
                     ]
                 ]]);
             }
-			Redis::set($request->input('email'), $token);
+            Redis::set($request->input('email'), $token);
             return response()->json(['success' => true, 'data' => $request->user(), 'token' => $token]);
         } catch (JWTException $e) {
             response()->json([

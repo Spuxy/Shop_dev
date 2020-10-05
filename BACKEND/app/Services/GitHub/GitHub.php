@@ -3,30 +3,35 @@
 namespace App\Services\GitHub;
 
 use App\Services\IGit;
-use GuzzleHttp\Client;
 use App\Services\GitHub\Definitions\HEADER;
+use App\Services\Git;
+use Illuminate\Http\JsonResponse;
+use stdClass;
 
-class GitHub implements IGit
+class GitHub extends Git implements IGit
 {
-	protected $client;
-
-	public function __construct()
-	{
-		$this->client = new Client([
-			'base_uri' => 'https://api.github.com', [
-				'auth' =>
-				['Spuxy', env('GITHUB_TOKEN')]
-			],
-			'headers' => [
-				'User-Agent' => ''
-			]
-		]);
-	}
+	protected $baseUri;
+	protected $uri = 'https://api.github.com/';
 
 	public function list(): array
 	{
-		$res = $this->client->get('/users/Spuxy/repos');
+		$base = ['Spuxy', env('GITHUB_TOKEN')];
+
+		$res = $this->apiCall('GET', 'users/Spuxy/repos', $base);
+
 		$body = $res->getBody();
+
+		return json_decode($body->getContents());
+	}
+
+	public function getLanguagesByRepository($repo): stdClass
+	{
+		$base = ['Spuxy', env('GITHUB_TOKEN')];
+
+		$res = $this->apiCall('GET', "repos/Spuxy/{$repo}/languages", $base);
+
+		$body = $res->getBody();
+
 		return json_decode($body->getContents());
 	}
 

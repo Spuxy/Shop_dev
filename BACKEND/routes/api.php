@@ -31,6 +31,7 @@ Route::group(['prefix' => 'git'], function () {
     // zobrazi list repositorau daneho uzivatele
     Route::get("repo/list/{platForm}", [RepositoryController::class, 'index']);
     Route::get('request/info', [RepositoryController::class, 'info']);
+    Route::get('repo/{repository}', [RepositoryController::class, 'store']);
 });
 
 Route::group(['middleware' => 'auth'], function () {

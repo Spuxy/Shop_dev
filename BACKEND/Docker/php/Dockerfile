@@ -32,7 +32,7 @@ RUN pecl install imagick && docker-php-ext-enable imagick
 
 # MySQL
 RUN docker-php-ext-install pdo pdo_mysql
-
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 # BC Math
 RUN docker-php-ext-install bcmath
 
